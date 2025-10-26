@@ -23,5 +23,8 @@ apply:
 connect:
 	@cd deploy && ssh -l yc-user -i ycvm $(ADDR)
 
+qr:
+	@cd deploy && qrencode -t ansiutf8 < client.conf
+
 destroy:
 	@cd deploy && make destroy

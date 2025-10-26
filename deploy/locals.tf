@@ -31,8 +31,8 @@ locals {
 locals {
   wireguard = {
     client-config = templatefile("${local.configs.wireguard}/client.conf.tpl", {
-      CLIENT_PRIVKEY        = tls_private_key.wg-client.private_key_openssh
-      SERVER_PUBKEY         = tls_private_key.wg-server.public_key_openssh
+      CLIENT_PRIVKEY        = data.external.wireguard-client-keys.result.private_key
+      SERVER_PUBKEY         = data.external.wireguard-server-keys.result.public_key
       WIREGUARD_SERVER_IP   = yandex_compute_instance.instance.network_interface.0.nat_ip_address
       WIREGUARD_SERVER_PORT = var.wireguard-server-port
     })

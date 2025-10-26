@@ -8,6 +8,13 @@ provider "registry.terraform.io/hashicorp/cloudinit" {
   ]
 }
 
+provider "registry.terraform.io/hashicorp/external" {
+  version = "2.3.5"
+  hashes = [
+    "h1:FnUk98MI5nOh3VJ16cHf8mchQLewLfN1qZG/MqNgPrI=",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/local" {
   version = "2.5.3"
   hashes = [

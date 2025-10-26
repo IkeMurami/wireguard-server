@@ -1,6 +1,8 @@
 .htpasswd
 ycvm
 ycvm.pub
+client.conf
+
 # Local .terraform directories
 .terraform/
 .DS_Store

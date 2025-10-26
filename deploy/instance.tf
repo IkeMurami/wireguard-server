@@ -22,9 +22,12 @@ resource "yandex_compute_instance" "instance" {
 
   # service_account_id = var.service-account-id
   resources {
+    # core_fraction = 50 # 50%
+    # cores         = 2
+    # memory        = 2
     core_fraction = 50 # 50%
     cores         = 2
-    memory        = 2
+    memory        = 1
   }
 
   boot_disk {

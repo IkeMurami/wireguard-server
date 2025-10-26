@@ -5,10 +5,15 @@ locals {
 locals {
   write_files = [
     {
-      path = "${local.base-dir}/server.conf",
+      path = "${local.base-dir}/wg0.conf",
       content = templatefile("${local.configs.wireguard}/server.conf.tpl", {
-        SERVER_PRIVKEY = tls_private_key.wg-server.private_key_openssh
-        CLIENT_PUBKEY  = tls_private_key.wg-client.public_key_openssh
+        # SERVER_PRIVKEY        = tls_private_key.wg-server.private_key_openssh
+        # CLIENT_PUBKEY         = tls_private_key.wg-client.public_key_openssh
+
+        SERVER_PRIVKEY = data.external.wireguard-server-keys.result.private_key
+        CLIENT_PUBKEY  = data.external.wireguard-client-keys.result.public_key
+
+        WIREGUARD_SERVER_PORT = var.wireguard-server-port
       })
     }
   ]
@@ -25,18 +30,20 @@ locals {
       }
     ]
 
-    package_update  = true
-    package_upgrade = true
+    # Install WireGuard
+    package_update  = true # apt update
+    package_upgrade = true # apt upgrade -y
     packages = [
-      "wireguard"
+      "wireguard", # apt install wireguard -y
+      "qrencode"
     ]
 
     runcmd = [
       "echo 'Hello, World!' > /etc/hello-world.txt",
-      # Install WireGuard
-      # "sudo apt update && sudo apt upgrade -y",
-      # "sudo apt install wireguard -y"
-      # "chmod 666 /var/run/docker.sock"
+      # "chmod 666 /var/run/docker.sock",
+      "sysctl -w net.ipv4.ip_forward=1",
+      "systemctl enable wg-quick@wg0",
+      "systemctl start wg-quick@wg0"
     ]
     // Move configs to VM
     write_files = local.write_files
