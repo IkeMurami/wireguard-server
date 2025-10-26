@@ -39,8 +39,6 @@ locals {
     ]
 
     runcmd = [
-      "echo 'Hello, World!' > /etc/hello-world.txt",
-      # "chmod 666 /var/run/docker.sock",
       "sysctl -w net.ipv4.ip_forward=1",
       "systemctl enable wg-quick@wg0",
       "systemctl start wg-quick@wg0"
